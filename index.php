@@ -33,10 +33,28 @@
         <?php
             if(isset($_POST['enviado'])) {
 
-                $genero = "Não selecionado";
+                if(empty($_POST['nome']) || strlen($_POST['nome']) < 3 || strlen($_POST['nome']) > 100){
+                    echo '<p class="error">Preencha corretamente o campo nome</p>';
+                    die();
+                }
 
+                if(empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+                    echo '<p class="error">Preencha corretamente o campo e-mail</p>';
+                    die();
+                }
+
+                if(!empty($_POST['website']) && !filter_var($_POST['website'], FILTER_VALIDATE_URL)){
+                    echo '<p class="error">Preencha corretamente o campo website</p>';
+                    die();
+                }
+
+                $genero = "Não selecionado";
                 if(isset($_POST['genero'])) {
                     $genero = $_POST['genero'];
+                    if($genero != "masculino" && $genero != "feminino" && $genero != "outro") {
+                        echo '<p class="error">Preencha corretamente o campo de gênero</p>';
+                        die();
+                    }
                 }
 
                 echo "<p><b>Nome: </b>" . $_POST['nome'] . "</p>";
